@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Gainers Table</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Stock Gainers for {{ date }} greater than 10%</h1>
+        {{ table_1 | safe }}
+    </div>
+    <div class="container mt-5">
+        <h1 class="text-center">Stock Loosers for {{ date }} greater than 10%</h1>
+        {{ table_2 | safe }}
+    </div>
+    <div class="container mt-5">
+        <h1 class="text-center">Stocks making 52 week highs for {{ date }}</h1>
+        {{ table_3 | safe }}
+    </div>
+    <div class="container mt-5">
+        <h1 class="text-center">Stocks making 52 week lows for {{ date }}</h1>
+        {{ table_4 | safe }}
+    </div>
+</body>
+</html>
