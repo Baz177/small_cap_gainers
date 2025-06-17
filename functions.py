@@ -151,7 +151,8 @@ def finviz_gainers():
     # Set filter for stocks with positive daily change
     #filters_dict = {'Change': 'Any', 'Current Volume': 'Over 1M'}
     #filters_dict = {'Change': 'Up 10%', 'Current Volume': 'Over 1M'}
-    filters_dict = {'Change': 'Up 10%', 'Average Volume': 'Over 1M'}
+    #filters_dict = {'Change': 'Up 10%', 'Average Volume': 'Over 1M'}
+    filters_dict = {'Change': 'Up 10%'}
 
 
     # Fetch the data
@@ -174,7 +175,7 @@ def finviz_loosers():
     # Set filter for stocks with positive daily change
     #filters_dict = {'Change': 'Any', 'Current Volume': 'Over 1M'}
     #filters_dict = {'Change': 'Down 10%', 'Current Volume': 'Over 1M'}
-    filters_dict = {'Change': 'Down 10%', 'Average Volume': 'Over 1M'}
+    filters_dict = {'Change': 'Down 10%'}
 
 
     # Fetch the data
@@ -197,6 +198,21 @@ def new_52_week_high():
 
     # Set filter for stocks at 52-week high
     filters_dict = {'52-Week High/Low': 'New High'}
+
+    # Fetch the data
+    foverview.set_filter(filters_dict=filters_dict)
+    df_all = foverview.screener_view()
+    df = df_all[(df_all['Volume'] > 1000000) & (~df_all['Company'].fillna('').str.endswith('ETF')) & (df_all['Country'] == 'USA')].reset_index()
+
+    # Print the results
+    return df.drop(columns='index')
+
+def new_52_week_low(): 
+    # Initialize the screener
+    foverview = Overview()
+
+    # Set filter for stocks at 52-week high
+    filters_dict = {'52-Week High/Low': 'New Low'}
 
     # Fetch the data
     foverview.set_filter(filters_dict=filters_dict)
