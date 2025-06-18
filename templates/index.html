@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Gainers App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Stock Scanner</h1>
+        <p>This application analyzes stock data to identify top gainers/loosers and stocks making 52 week highs/lows. Click the button below to generate and view results for today.</p>
+        <p> Note: This process may take a some time.</p>
+        <div>
+            <button id="getGainersBtn" class="btn btn-primary">Get Gainers</button>
+        </div>
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processing... Please Go get some Coffee... or Please wait.</p>
+        </div>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.getElementById('getGainersBtn').addEventListener('click', function() {
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            loading.style.display = 'block';
+            fetch('/get_gainers')
+                .then(response => response.text())
+                .then(html => {
+                    loading.style.display = 'none';
+                    result.innerHTML = html;
+                })
+                .catch(error => {
+                    loading.style.display = 'none';
+                    result.innerHTML = '<p class="text-danger">Error loading data.</p>';
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>
