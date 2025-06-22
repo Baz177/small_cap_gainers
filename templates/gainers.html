@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner Results</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .table-section {
+            margin-bottom: 30px;
+        }
+        /* Custom CSS to left-align table headers */
+        .table th {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Scanner Results - {{ date }}</h1>
+        <a href="/scanner" class="btn btn-secondary mb-3">Back to Scanner</a>
+
+        {% if show_gainers and table_1 %}
+        <div class="table-section">
+            <h3>Gainers</h3>
+            {{ table_1 | safe }}
+        </div>
+        {% endif %}
+
+        {% if show_losers and table_2 %}
+        <div class="table-section">
+            <h3>Losers</h3>
+            {{ table_2 | safe }}
+        </div>
+        {% endif %}
+
+        {% if show_52weekhigh and table_3 %}
+        <div class="table-section">
+            <h3>52-Week Highs</h3>
+            {{ table_3 | safe }}
+        </div>
+        {% endif %}
+
+        {% if show_52weeklow and table_4 %}
+        <div class="table-section">
+            <h3>52-Week Lows</h3>
+            {{ table_4 | safe }}
+        </div>
+        {% endif %}
+
+        {% if not (show_gainers or show_losers or show_52weekhigh or show_52weeklow) %}
+        <p class="text-center">No options selected. Please select at least one option.</p>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

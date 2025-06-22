@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Fundamentals - {{ ticker }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container-fluid {
+            margin-top: 30px; /* Keep some top margin */
+            padding-left: 15px; /* Keep some side padding */
+            padding-right: 15px;
+        }
+        .chart-img, .fundamentals-img {
+            max-width: 100%; /* Ensure image scales down if needed */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove extra space below image */
+            margin: 0 auto; /* Center the image in its column */
+        }
+        .fundamentals-table-container {
+            background-color: #ffffff;
+            border-radius: .25rem;
+            padding: 15px;
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+            min-height: 400px; /* Keep for visual alignment */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: auto; /* Ensure horizontal scroll for image if needed */
+        }
+
+        /* Custom class to reduce column padding */
+        .row-no-gutter > [class*="col-"] {
+            padding-right: 5px; /* Adjust this value to control spacing */
+            padding-left: 5px;  /* Adjust this value to control spacing */
+        }
+
+        /* Counteract the padding on the row itself */
+        .row-no-gutter {
+            margin-right: -5px; /* Counteract the padding on the rightmost col */
+            margin-left: -5px;  /* Counteract the padding on the leftmost col */
+        }
+
+        /* Adjust for smaller screens: Make columns stack */
+        @media (max-width: 991.98px) { /* Bootstrap's lg breakpoint */
+            .fundamentals-col, .chart-col {
+                margin-bottom: 20px; /* Add space between stacked columns */
+            }
+        }
+
+        /* Custom CSS to left-align table headers for any Bootstrap table */
+        .table th {
+            text-align: left;
+        }
+
+        /* Style for the news section */
+        .news-section {
+            margin-top: 30px; /* Space above news section */
+            background-color: #ffffff;
+            border-radius: .25rem;
+            padding: 20px;
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+        }
+        .news-section h3 {
+            margin-bottom: 20px;
+            text-align: center; /* Center news heading */
+        }
+        .news-section .table {
+            margin-bottom: 0; /* Remove default table bottom margin within card */
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1 class="mb-3 text-center">Fundamentals for {{ ticker }}</h1>
+        <p class="text-muted text-center">Data as of {{ date }}</p>
+
+        <div class="row mt-4 row-no-gutter">
+            <div class="col-lg-6 fundamentals-col">
+                <div class="fundamentals-table-container">
+                    {% if table %}
+                        <img src="{{ url_for('static', filename=table) }}"
+                             class="fundamentals-img"
+                             alt="{{ ticker }} Fundamentals Table">
+                    {% else %}
+                        <p class="text-center text-danger">Fundamentals table could not be loaded for {{ ticker }}.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6 chart-col">
+                {% if chart_filename %}
+                    <img src="{{ url_for('static', filename=chart_filename) }}"
+                             class="chart-img"
+                             alt="{{ ticker }} Heikin-Ashi and Volume Chart">
+                {% else %}
+                    <p class="text-center text-danger">Chart could not be loaded for {{ ticker }}.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Moved the back button here, above the news section #}
+        <div class="text-center mt-4 mb-5">
+            <a href="/" class="btn btn-primary">Back to Home</a>
+        </div>
+
+        <div class="news-section">
+            <h3>Most Recent News for {{ ticker }}</h3>
+            {% if news_table %}
+                <div class="table-responsive">
+                    {{ news_table | safe }}
+                </div>
+                {% else %}
+                <p class="text-center text-muted">No recent news available for {{ ticker }}.</p>
+            {% endif %}
+        </div>
+        </div> {# Close container-fluid #}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
